@@ -1,0 +1,1 @@
+A simple Mastermind game made for STEM showcase. User guess a 4-letter word and get feedback: a ‘*’ if letter is in correct position and a ‘-‘ if letter is in the string but in wrong position. Are planning to add graphics.
