@@ -11,7 +11,7 @@
 
 using namespace std;
 
-//string getGuessFromUser();
+
 void giveFeedback(int numOfCorrectLetters, int numOfMisplacedLetters);
 void printGameInfoToUser();
 
