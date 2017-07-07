@@ -46,8 +46,8 @@ bool Game::setUserGuess(string userGuess) {
    return true;
 }
 
-bool Game::isValidString(string theString) {
-   if (theString.length() != LENGTH_OF_CODE) {
+bool Game::isValidString(string guess) {
+   if (guess.length() != LENGTH_OF_CODE) {
       return false;
    }
    return true;
