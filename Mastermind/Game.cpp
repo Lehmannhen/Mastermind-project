@@ -53,35 +53,26 @@ bool Game::isValidString(string theString) {
    return true;
 }
 
-int Game::numOfCorrectLetters(bool isCorrect[]) {
+int Game::numOfCorrectLetters(bool isCodeMarked[], bool isGuessMarked[]) {
    int numOfCorrectLetters = 0;
+   
    for (int i = 0; i < secretCode.length(); i++) {
       if (secretCode[i] == toupper(userGuess[i])) {
-         isCorrect[i] = true;
+         isCodeMarked[i] = true;
+         isGuessMarked[i] = true;
          numOfCorrectLetters++;
       }
       else {
-         isCorrect[i] = false;
+         isCodeMarked[i] = false;
+         isGuessMarked[i] = false;
       }
    }
    return numOfCorrectLetters;
 }
 
-int Game::numOfMisplacedLetters(bool isCorrect[]) {
+int Game::numOfMisplacedLetters(bool isCodeMarked[], bool isGuessMarked[]) {
    int numOfMisplacedLetters = 0;
-   bool isGuessMarked[LENGTH_OF_CODE];
-   bool isCodeMarked[LENGTH_OF_CODE];
 
-   for (int i = 0; i < LENGTH_OF_CODE; i++) {
-      if (isCorrect[i]) {
-         isGuessMarked[i] = true;
-         isCodeMarked[i] = true;
-      }
-      else {
-         isGuessMarked[i] = false;
-         isCodeMarked[i] = false;
-      }
-   }
    for (int i = 0; i < LENGTH_OF_CODE; i++) {
       for (int j = 0; j < LENGTH_OF_CODE; j++) {
          if ((secretCode[i] == toupper(userGuess[j])) &&
@@ -125,21 +116,37 @@ void Game::giveFeedback(int numOfCorrectLetters, int numOfMisplacedLetters) {
    cout << feedback << endl;
 }
 
+void Game::printGameInfoToUser() {
+   cout << "------------------ MASTERMIND ------------------\n" << endl;
+   cout << "         Welcome to the game Mastermind\n"
+      << "Try to guess the secret code that consists of a "
+      << Game::LENGTH_OF_CODE << " letter word.\nYou will get feedback how "
+      << "well your guess was:\n   " << "* = Correct letter.\n   "
+      << "- = Letters that exists in code but are in wrong position.\n"
+      << "   When you're correct you will get the number of guesses you needed"
+      << endl << endl;
+}
+
 void Game::play() {
    int blackPegs = 0;
    int whitePegs = 0;
    int numberOfTries = 0;
-   bool isCorrect[LENGTH_OF_CODE];
-   setSecretCode();
+   bool isCodeMarked[LENGTH_OF_CODE];
+   bool isGuessMarked[LENGTH_OF_CODE];
+   if (!setSecretCode()) {
+      cout << "Couldn't find file" << endl;
+      return;
+   }
+   
    while (true) {
       setUserGuess(getGuessFromUser());
-      blackPegs = numOfCorrectLetters(isCorrect);
-      whitePegs = numOfMisplacedLetters(isCorrect);
+      blackPegs = numOfCorrectLetters(isCodeMarked, isGuessMarked);
+      whitePegs = numOfMisplacedLetters(isCodeMarked, isGuessMarked);
       giveFeedback(blackPegs, whitePegs);
       numberOfTries++;
       if (blackPegs == LENGTH_OF_CODE) {
          cout << "Congratulations you got it! It took you " << numberOfTries
-         << " tries!" << endl << endl;
+            << " tries!" << endl << endl;
          break;
       }
    }
