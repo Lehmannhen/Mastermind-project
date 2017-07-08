@@ -13,35 +13,34 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 class Game {
 private:
-   string secretCode;
-   string userGuess;
-   vector<string> wordsInGame;
+   std::string secretCode;
+   std::string userGuess;
+   std::vector<std::string> wordsInGame;
 
 public:
    static const int LENGTH_OF_CODE = 4;
 
    // constructor
-   Game(string fileName);
+   Game(std::string fileName);
 
    // Game methods
-   string getGuessFromUser();
+   std::string getGuessFromUser();
    void giveFeedback(int numOfCorrectLetters, int numOfMisplacedLetters);
    void play();
-   string getUserGuess();
-   static bool isValidString(string theString);
-   int numOfCorrectLetters(bool isCorrect[]);
-   int numOfMisplacedLetters(bool isCorrect[]);
+   std::string getUserGuess();
+   static bool isValidString(std::string guess);
+   static void printGameInfoToUser();
+   int numOfCorrectLetters(bool isCodeMarked[], bool isGuessMarked[]);
+   int numOfMisplacedLetters(bool isCodeMarked[], bool isGuessMarked[]);
 
    // accessors and mutators
-   bool setWordsInGame(string fileName);
+   bool setWordsInGame(std::string fileName);
    bool setSecretCode();
-   bool setUserGuess(string userGuess);
-   vector<string> getWordsInGame() { return wordsInGame; }
-   string getSecretCode() { return secretCode; }
+   bool setUserGuess(std::string userGuess);
+   std::vector<std::string> getWordsInGame() { return wordsInGame; }
+   std::string getSecretCode() { return secretCode; }
 
 };
 #endif /* Game_hpp */
